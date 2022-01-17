@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Bookodemia</string>
+    <string name="link_registro"><u>¿Todavía no tienes cuenta? Registrate</u></string>
 </resources>
