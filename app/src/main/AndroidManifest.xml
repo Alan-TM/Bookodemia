@@ -10,8 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bookodemia">
         <activity
+            android:name=".Home"
+            android:exported="false" />
+        <activity
+            android:name=".FormRegistro"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="stateVisible">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
