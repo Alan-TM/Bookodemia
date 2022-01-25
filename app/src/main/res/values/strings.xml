@@ -37,4 +37,9 @@
     <string name="img_compartir">Compartir</string>
     <string name="img_details_libro">Libro</string>
     <string name="img_details_autor">Autor</string>
+    <string name="img_populares">Libros más populares</string>
+    <string name="agregados_titulo">Titulo</string>
+    <string name="agregados_autor">by Autor</string>
+    <string name="agregados_categoria">Categoría</string>
+    <string name="agregados_libro_portada">Portada</string>
 </resources>

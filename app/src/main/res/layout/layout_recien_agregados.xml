@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,14 +29,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/libro_1"
             android:scaleType="centerCrop"
-            />
+            android:contentDescription="@string/agregados_libro_portada" />
 
         <TextView
             android:id="@+id/text_recycler_agregados_titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Titulo"
+            android:text="@string/agregados_titulo"
             android:textStyle="bold"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/image_recycler_agregados_portada"
@@ -46,32 +47,35 @@
             android:id="@+id/text_recycler_agregados_autor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="by Autor"
+            android:layout_marginTop="4dp"
+            android:text="@string/agregados_autor"
+            android:textColor="@color/gray_dark"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:textColor="@color/gray_dark"
-            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@id/text_recycler_agregados_titulo"
-            app:layout_constraintTop_toBottomOf="@id/text_recycler_agregados_titulo"/>
+            app:layout_constraintTop_toBottomOf="@id/text_recycler_agregados_titulo"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/text_recycler_agregados_categoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Categoría"
+            android:layout_marginTop="4dp"
+            android:text="@string/agregados_categoria"
+            android:textColor="@color/gray_dark"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:textColor="@color/gray_dark"
-            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@id/text_recycler_agregados_autor"
-            app:layout_constraintTop_toBottomOf="@id/text_recycler_agregados_autor"/>
+            app:layout_constraintTop_toBottomOf="@id/text_recycler_agregados_autor"
+            tools:ignore="TextContrastCheck" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_recycler_home_detalles"
             android:layout_width="34dp"
             android:layout_height="42dp"
             android:layout_marginEnd="16dp"
-            android:paddingLeft="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             app:icon="@drawable/ic_right"
             app:iconSize="12dp"
             android:clickable="false"
@@ -88,11 +92,13 @@
             android:layout_marginHorizontal="2dp"
             android:layout_marginTop="8dp"
             android:background="@color/white"
+            android:contentDescription="@string/img_favoritos"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_heart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/button_recycler_home_detalles"
-            app:layout_constraintTop_toBottomOf="@+id/button_recycler_home_detalles" />
+            app:layout_constraintTop_toBottomOf="@+id/button_recycler_home_detalles"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <ImageButton
             android:layout_width="15dp"
@@ -100,11 +106,13 @@
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="8dp"
             android:background="@color/white"
+            android:contentDescription="@string/img_compartir"
             android:scaleType="centerInside"
             android:src="@drawable/ic_share_alt"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/button_recycler_home_heart"
-            app:layout_constraintTop_toBottomOf="@+id/button_recycler_home_detalles" />
+            app:layout_constraintTop_toBottomOf="@+id/button_recycler_home_detalles"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
