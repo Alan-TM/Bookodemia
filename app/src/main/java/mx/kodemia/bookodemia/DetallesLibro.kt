@@ -55,6 +55,8 @@ class DetallesLibro : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val context = view.context
+
         button_details_back.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
         }

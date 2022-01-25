@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -31,12 +32,24 @@ class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapte
         val titulo: TextView = view.findViewById(R.id.text_recycler_agregados_titulo)
         val autor: TextView = view.findViewById(R.id.text_recycler_agregados_autor)
         val categoria: TextView = view.findViewById(R.id.text_recycler_agregados_categoria)
+        val btn_detalles: Button = view.findViewById(R.id.button_recycler_home_detalles)
 
         fun setInfo(libro: Libro){
             Glide.with(view).load(libro.img).diskCacheStrategy(DiskCacheStrategy.NONE).into(img)
             titulo.text = libro.titulo
             autor.text = "by ${libro.autor}"
             categoria.text = libro.categoria
+
+            btn_detalles.setOnClickListener {
+                val fragmentDetallesLibro = DetallesLibro()
+                val activity = view.context as AppCompatActivity
+
+                activity.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.innerConstraint_home, fragmentDetallesLibro)
+                    .disallowAddToBackStack()
+                    .commit()
+            }
 
         }
 
@@ -49,7 +62,7 @@ class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: LibroHolder, position: Int) {
         holder.setInfo(listLibros[position])
-        holder.view.setOnClickListener(object : View.OnClickListener{
+        /*holder.view.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 val activity = v!!.context as AppCompatActivity
                 val fragmentDetallesLibro = DetallesLibro()
@@ -62,7 +75,7 @@ class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapte
             }
 
 
-        })
+        })*/
     }
 
     override fun getItemCount(): Int = listLibros.size

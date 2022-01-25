@@ -8,8 +8,6 @@
     style="?attr/materialCardViewElevatedStyle"
     app:cardCornerRadius="14dp"
     app:cardElevation="10dp"
-    android:clickable="true"
-    android:focusable="true"
     android:backgroundTint="@color/white"
     android:layout_marginHorizontal="32dp"
     android:layout_marginVertical="8dp">
@@ -78,8 +76,6 @@
             android:paddingEnd="12dp"
             app:icon="@drawable/ic_right"
             app:iconSize="12dp"
-            android:clickable="false"
-            android:focusable="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
