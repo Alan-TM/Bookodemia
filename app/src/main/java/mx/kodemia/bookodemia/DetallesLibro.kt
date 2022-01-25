@@ -58,7 +58,8 @@ class DetallesLibro : Fragment() {
         val context = view.context
 
         button_details_back.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+
         }
     }
 }

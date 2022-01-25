@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -47,7 +48,7 @@ class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapte
                 activity.supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.innerConstraint_home, fragmentDetallesLibro)
-                    .disallowAddToBackStack()
+                    .addToBackStack(null)
                     .commit()
             }
 
