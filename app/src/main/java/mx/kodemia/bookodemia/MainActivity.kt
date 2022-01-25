@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             if(til_correo.editText?.text.toString().trim().isNotEmpty() || til_password.editText?.text.toString().trim().isNotEmpty()){
                 startActivity(Intent(this, Home::class.java))
             } else{
-                Snackbar.make(parent_view!!, "Llena los campos requeridos", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(parent_view!!, resources.getText(R.string.error_login_button), Snackbar.LENGTH_SHORT).show()
                 til_correo.requestFocus()
             }
 

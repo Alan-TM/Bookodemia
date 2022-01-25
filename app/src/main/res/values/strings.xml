@@ -30,4 +30,11 @@
     <string name="placeholder_user">Alan-TM</string>
     <string name="placeholder_user2">FerLima</string>
     <string name="error_matching_passwords">La contraseña no coincide</string>
+    <string name="error_login_button">Llena los campos requeridos</string>
+    <string name="img_descripcion">Banner</string>
+    <string name="img_logo">Logo</string>
+    <string name="img_favoritos">Favoritos</string>
+    <string name="img_compartir">Compartir</string>
+    <string name="img_details_libro">Libro</string>
+    <string name="img_details_autor">Autor</string>
 </resources>

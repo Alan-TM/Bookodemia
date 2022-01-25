@@ -28,7 +28,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
@@ -42,6 +42,7 @@
                         android:id="@+id/image_home_banner"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
+                        android:contentDescription="@string/img_descripcion"
                         android:scaleType="centerCrop"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +59,8 @@
                         android:textSize="32sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/text_home_nombre"
-                        app:layout_constraintStart_toStartOf="@id/text_home_nombre" />
+                        app:layout_constraintStart_toStartOf="@id/text_home_nombre"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/text_home_nombre"
@@ -96,7 +98,8 @@
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                    tools:ignore="TextContrastCheck" />
 
                 <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
                     android:id="@+id/recycler_populares"
@@ -192,7 +195,8 @@
                     android:textColor="@color/blue_light"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cardView_home_filtros" />
+                    app:layout_constraintTop_toBottomOf="@id/cardView_home_filtros"
+                    tools:ignore="TextContrastCheck" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_home_agregados"
