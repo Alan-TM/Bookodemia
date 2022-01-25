@@ -59,7 +59,6 @@ class DetallesLibro : Fragment() {
 
         button_details_back.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
-
         }
     }
 }

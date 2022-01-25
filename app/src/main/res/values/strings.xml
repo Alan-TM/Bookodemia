@@ -1,4 +1,8 @@
 <resources>
+    <!--Metodos de la API-->
+    <string name="api_login">login</string>
+
+    <!--string app resources-->
     <string name="app_name">Bookodemia</string>
     <string name="link_registro">¿Todavía no tienes cuenta? Registrate</string>
     <string name="desc_registro">Estas a unos cuantos pasos de vivir la mejor experiencia</string>
