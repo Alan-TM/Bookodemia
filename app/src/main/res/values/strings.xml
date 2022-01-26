@@ -1,6 +1,7 @@
 <resources>
     <!--Metodos de la API-->
     <string name="api_login">login</string>
+    <string name="api_register">register</string>
 
     <!--string app resources-->
     <string name="app_name">Bookodemia</string>
@@ -46,4 +47,8 @@
     <string name="agregados_autor">by Autor</string>
     <string name="agregados_categoria">Categoría</string>
     <string name="agregados_libro_portada">Portada</string>
+
+    <string name="error_dialog_body">No existe el usuario\nPor favor, verifica tus datos</string>
+    <string name="error_dialog_title">Error</string>
+    <string name="error_invalid_email">Correo Inválido</string>
 </resources>
