@@ -11,10 +11,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_form_registro.*
 import kotlinx.android.synthetic.main.activity_main.*
-import mx.kodemia.bookodemia.tools.hasLetter
-import mx.kodemia.bookodemia.tools.hideKeyboard
-import mx.kodemia.bookodemia.tools.isEmptyOrError
-import mx.kodemia.bookodemia.tools.makeSnacks
+import mx.kodemia.bookodemia.tools.*
 
 class FormRegistro : AppCompatActivity() {
 
@@ -29,59 +26,25 @@ class FormRegistro : AppCompatActivity() {
 
         parent_view = findViewById(android.R.id.content)
 
-        initTietsRegistro(tiet_registro_user, til_registro_user)
-        initTietsRegistro(tiet_registro_correo, til_registro_correo)
-        initTietsRegistro(tiet_registro_password, til_registro_password)
+        afterTextErrorWatcher(applicationContext, tiet_registro_user, til_registro_user)
+        afterEmailTextErrorWatcher(applicationContext, tiet_registro_correo, til_registro_correo)
+        afterTextErrorWatcher(applicationContext, tiet_registro_password, til_registro_password)
         errorMatchinPasswords()
 
         button_registro_crear.setOnClickListener {
-            if (!isEmptyOrError(
+            if (checkEmptyFields(
+                    applicationContext,
                     til_registro_user,
                     til_registro_correo,
                     til_registro_password,
                     til_registro_confPassword
-                )
+                ) &&
+                checkFieldsErrors(til_registro_user, til_registro_correo, til_registro_password, til_registro_confPassword)
             ) {
-                if (hasLetter(tiet_registro_correo.text.toString(), '@')) {
-                    makeSnacks(
-                        parent_view!!,
-                        "El usuario a sido creado con exito!",
-                        getColor(R.color.blue_dark)
-                    )
-
-                    //TODO------ Request a registro !
-
-                    hideKeyboard(this)
-                } else{
-                    makeSnacks(parent_view!!, getText(R.string.error_invalid_email), getColor(R.color.error))
-                }
-            } else
-                makeSnacks(
-                    parent_view!!,
-                    "El usuario no pudo ser creado, por favor llena todos los campos",
-                    getColor(R.color.error)
-                )
+                makeSnacks(parent_view!!, getString(R.string.success_register), getColor(R.color.blue_dark))
+            }
         }
 
-    }
-
-    private fun initTietsRegistro(tiet: TextInputEditText, til: TextInputLayout) {
-
-        tiet.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(editText: Editable?) {
-                if (editText.toString().trim().isEmpty()) {
-                    til.setError(resources.getText(R.string.error_empty).toString())
-                } else {
-                    til.isErrorEnabled = false
-                    til.setError("")
-                }
-            }
-
-        })
     }
 
     private fun errorMatchinPasswords() {

@@ -51,4 +51,6 @@
     <string name="error_dialog_body">No existe el usuario\nPor favor, verifica tus datos</string>
     <string name="error_dialog_title">Error</string>
     <string name="error_invalid_email">Correo Inválido</string>
+    <string name="success_register">El usuario a sido creado</string>
+    <string name="error_connection">No hay conexión a internet</string>
 </resources>
