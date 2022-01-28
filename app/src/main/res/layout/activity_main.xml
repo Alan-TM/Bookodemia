@@ -8,10 +8,11 @@
     tools:context=".MainActivity">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,25 +23,25 @@
                 android:id="@+id/image_welcome_banner"
                 android:layout_width="0dp"
                 android:layout_height="240dp"
+                android:contentDescription="@string/img_descripcion"
                 android:scaleType="centerCrop"
                 android:src="@drawable/banner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ImageContrastCheck"
-                android:contentDescription="@string/img_descripcion" />
+                tools:ignore="ImageContrastCheck" />
 
             <ImageView
                 android:id="@+id/imageView_bienvenido"
                 android:layout_width="wrap_content"
                 android:layout_height="180dp"
                 android:layout_marginTop="-110dp"
+                android:contentDescription="@string/img_logo"
                 android:src="@drawable/logo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_welcome_banner"
-                tools:ignore="ImageContrastCheck"
-                android:contentDescription="@string/img_logo" />
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/textView_bienvenido"
@@ -49,8 +50,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/welcome"
                 android:textAlignment="center"
-                android:textSize="32sp"
                 android:textColor="@color/blue_dark"
+                android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView_bienvenido" />
@@ -103,8 +104,8 @@
                 android:layout_margin="32dp"
                 android:padding="16dp"
                 android:text="@string/login"
-                android:textSize="16sp"
                 android:textAllCaps="true"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -125,6 +126,22 @@
                 app:layout_constraintStart_toStartOf="@+id/button_iniciar"
                 app:layout_constraintTop_toBottomOf="@+id/button_iniciar"
                 tools:ignore="TouchTargetSizeCheck" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/pb_login"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:lottie_fileName="loading_blue.json"
+                android:scaleType="centerCrop"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:layout_constraintBottom_toTopOf="@+id/textView_registro"
+                app:layout_constraintEnd_toEndOf="@+id/button_iniciar"
+                app:layout_constraintStart_toStartOf="@+id/button_iniciar"
+                app:layout_constraintTop_toTopOf="@+id/button_iniciar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

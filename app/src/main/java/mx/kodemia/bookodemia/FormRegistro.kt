@@ -20,16 +20,21 @@ class FormRegistro : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_registro)
 
-        button_regresar_main.setOnClickListener {
-            finish()
-        }
+        initializeComponents()
 
+    }
+
+    fun initializeComponents(){
         parent_view = findViewById(android.R.id.content)
 
         afterTextErrorWatcher(applicationContext, tiet_registro_user, til_registro_user)
         afterEmailTextErrorWatcher(applicationContext, tiet_registro_correo, til_registro_correo)
-        afterTextErrorWatcher(applicationContext, tiet_registro_password, til_registro_password)
-        errorMatchinPasswords()
+        errorMatchinPasswords(tiet_registro_password, til_registro_password, til_registro_confPassword)
+        errorMatchinPasswords(tiet_registro_confPassword, til_registro_confPassword, til_registro_password)
+
+        button_regresar_main.setOnClickListener {
+            finish()
+        }
 
         button_registro_crear.setOnClickListener {
             if (checkEmptyFields(
@@ -42,13 +47,17 @@ class FormRegistro : AppCompatActivity() {
                 checkFieldsErrors(til_registro_user, til_registro_correo, til_registro_password, til_registro_confPassword)
             ) {
                 makeSnacks(parent_view!!, getString(R.string.success_register), getColor(R.color.blue_dark))
+                //make request to API
+
+                loadingComponents(pb_registro, button_registro_crear, true, "", false)
+                button_regresar_main.isEnabled = false
+
             }
         }
-
     }
 
-    private fun errorMatchinPasswords() {
-        tiet_registro_confPassword.addTextChangedListener(object : TextWatcher {
+    private fun errorMatchinPasswords(tiet: TextInputEditText, til: TextInputLayout, matchTil: TextInputLayout) {
+        tiet.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -57,13 +66,16 @@ class FormRegistro : AppCompatActivity() {
             }
 
             override fun afterTextChanged(editText: Editable?) {
-                if (editText.toString().trim() != tiet_registro_password.text.toString().trim()) {
-                    til_registro_confPassword.setError(
-                        resources.getText(R.string.error_matching_passwords).toString()
-                    )
-                } else {
-                    til_registro_confPassword.isErrorEnabled = false
-                    til_registro_confPassword.setError("")
+                if(editText.toString().trim().isEmpty())
+                    til.error = getString(R.string.error_empty)
+                else {
+                    if (editText.toString().trim() != matchTil.editText!!.text.toString().trim()) {
+                        til.error = getString(R.string.error_matching_passwords)
+                    } else {
+                        til.isErrorEnabled = false
+                        if(matchTil.isErrorEnabled)
+                            matchTil.isErrorEnabled = false
+                    }
                 }
             }
 

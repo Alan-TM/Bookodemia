@@ -9,9 +9,13 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.ProgressBar
+import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_main.*
 import mx.kodemia.bookodemia.R
 
 fun makeSnacks(v: View, text: CharSequence, color: Int){
@@ -54,16 +58,6 @@ fun checkFieldsErrors(vararg til: TextInputLayout): Boolean{
             return false
     }
     return true
-}
-
-fun validateEmail(context: Context, til_correo: TextInputLayout): Boolean{
-    return if(android.util.Patterns.EMAIL_ADDRESS.matcher(til_correo.editText!!.text.toString()).matches()){
-        til_correo.isErrorEnabled = false
-        true
-    } else{
-        til_correo.error = context.getString(R.string.error_invalid_email)
-        false
-    }
 }
 
 fun afterEmailTextErrorWatcher(context: Context, tiet: TextInputEditText, til: TextInputLayout) {
@@ -128,4 +122,13 @@ fun verifyInternetConnection(context: Context): Boolean {
         }
     }
     return false
+}
+
+fun loadingComponents(pb: LottieAnimationView, button: Button, visible: Boolean, buttonText: String, enable: Boolean){
+    pb.visibility = when(visible){
+        true -> View.VISIBLE
+        false -> View.GONE
+    }
+    button.text = buttonText
+    button.isEnabled = enable
 }

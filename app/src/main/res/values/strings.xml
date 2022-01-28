@@ -3,6 +3,13 @@
     <string name="api_login">login</string>
     <string name="api_register">register</string>
 
+    <!--Share preference-->
+    <string name="name_file_preference">mx.kodemia.bookodemia.sharedpreferences</string>
+    <string name="preference_token">token</string>
+
+    <!--Key de acceso de la API-->
+    <string name="api_key_token">plain-text-token</string>
+
     <!--string app resources-->
     <string name="app_name">Bookodemia</string>
     <string name="link_registro">¿Todavía no tienes cuenta? Registrate</string>
@@ -53,4 +60,7 @@
     <string name="error_invalid_email">Correo Inválido</string>
     <string name="success_register">El usuario a sido creado</string>
     <string name="error_connection">No hay conexión a internet</string>
+
+
+
 </resources>

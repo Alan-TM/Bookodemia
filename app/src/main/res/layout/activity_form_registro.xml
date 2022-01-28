@@ -137,6 +137,7 @@
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="8dp"
                         android:hint="@string/password"
+                        app:passwordToggleEnabled="true"
                         app:layout_constraintEnd_toEndOf="@+id/til_registro_correo"
                         app:layout_constraintStart_toStartOf="@+id/til_registro_correo"
                         app:layout_constraintTop_toBottomOf="@id/til_registro_correo">
@@ -145,6 +146,7 @@
                             android:id="@+id/tiet_registro_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="textPassword"
                             tools:ignore="TextContrastCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,6 +159,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         android:hint="@string/confirm_password"
+                        app:passwordToggleEnabled="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/til_registro_password"
                         app:layout_constraintStart_toStartOf="@+id/til_registro_password"
@@ -166,6 +169,7 @@
                             android:id="@+id/tiet_registro_confPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="textPassword"
                             tools:ignore="TextContrastCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -189,6 +193,22 @@
                 app:layout_constraintEnd_toEndOf="@id/cardView_registro"
                 app:layout_constraintStart_toStartOf="@id/cardView_registro"
                 app:layout_constraintTop_toBottomOf="@id/cardView_registro" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/pb_registro"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:lottie_fileName="loading_blue.json"
+                android:scaleType="centerCrop"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:layout_constraintBottom_toBottomOf="@id/button_registro_crear"
+                app:layout_constraintEnd_toEndOf="@+id/button_registro_crear"
+                app:layout_constraintStart_toStartOf="@+id/button_registro_crear"
+                app:layout_constraintTop_toTopOf="@+id/button_registro_crear" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

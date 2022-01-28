@@ -14,7 +14,8 @@
         android:theme="@style/Theme.Bookodemia">
         <activity
             android:name=".Home"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".FormRegistro"
             android:exported="false" />
