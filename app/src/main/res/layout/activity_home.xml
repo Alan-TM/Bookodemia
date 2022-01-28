@@ -8,6 +8,22 @@
     android:background="@color/gray"
     tools:context=".Home">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/pb_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:lottie_fileName="loading_blue.json"
+        android:scaleType="centerCrop"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:backgroundTint="@color/pb_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/innerConstraint_home"
         android:layout_width="match_parent"

@@ -41,23 +41,16 @@ fun hideKeyboard(activity: Activity) {
     }
 }
 
-fun checkEmptyFields(context: Context, vararg til: TextInputLayout): Boolean{
+fun checkEmptyOrErrorFields(context: Context, vararg til: TextInputLayout): Boolean{
     var count = 0
     for(i in til){
         if(i.editText!!.text.toString().isEmpty()){
             i.error = context.getString(R.string.error_empty)
             count++
-        }
+        } else if(i.isErrorEnabled)
+            count++
     }
     return count == 0
-}
-
-fun checkFieldsErrors(vararg til: TextInputLayout): Boolean{
-    for(i in til){
-        if(i.isErrorEnabled)
-            return false
-    }
-    return true
 }
 
 fun afterEmailTextErrorWatcher(context: Context, tiet: TextInputEditText, til: TextInputLayout) {

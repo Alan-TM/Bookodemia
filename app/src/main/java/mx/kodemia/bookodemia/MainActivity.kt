@@ -28,10 +28,8 @@ class MainActivity : AppCompatActivity() {
     private var parent_view: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        deleteTokenPreference(applicationContext) //recuerda borrar esto-----------------------
-
-        if(validateSessionToken(applicationContext))
+        deleteTokenPreference(applicationContext) //borrar esta linea ----------
+        if (validateSessionToken(applicationContext))
             launchActivity()
 
         super.onCreate(savedInstanceState)
@@ -41,8 +39,27 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        clearAllFields()
+        super.onResume()
+    }
+
+    private fun clearAllFields() {
+        tiet_correo.text?.clear()
+        tiet_correo.clearFocus()
+        tiet_password.text?.clear()
+        tiet_password.clearFocus()
+        til_correo.isErrorEnabled = false
+        til_password.isErrorEnabled = false
+    }
+
     private fun launchActivity() {
-        startActivity(Intent(this, Home::class.java))
+        startActivity(
+            Intent(
+                this,
+                Home::class.java
+            ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        )
         finish()
     }
 
@@ -57,7 +74,11 @@ class MainActivity : AppCompatActivity() {
             if (verifyInternetConnection(applicationContext))
                 startLogIn()
             else
-                makeSnacks(parent_view!!, getString(R.string.error_connection), getColor(R.color.error))
+                makeSnacks(
+                    parent_view!!,
+                    getString(R.string.error_connection),
+                    getColor(R.color.error)
+                )
 
         }
 
@@ -66,11 +87,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startLogIn() {
-        if (checkEmptyFields(applicationContext, til_correo, til_password)) {
-            if (checkFieldsErrors(til_correo, til_password))
-                makeLoginRequest()
-            else
-                til_correo.requestFocus()
+        if (checkEmptyOrErrorFields(applicationContext, til_correo, til_password)) {
+            makeLoginRequest()
         } else {
             if (tiet_correo.text!!.isEmpty() && tiet_password.text!!.isEmpty())
                 til_correo.requestFocus()
@@ -86,10 +104,7 @@ class MainActivity : AppCompatActivity() {
         loadingComponents(pb_login, button_iniciar, true, "", false)
 
         val queue = Volley.newRequestQueue(applicationContext)
-        val jsonObject = JSONObject()
-        jsonObject.put("email", tiet_correo.text)
-        jsonObject.put("password", tiet_password.text)
-        jsonObject.put("device_name", "Alan's phone")
+        val jsonObject = makeJsonBodyRequest()
 
         val request = JsonObjectRequest(
             Request.Method.POST,
@@ -101,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 launchActivityAfterRequest()
             },
             { error ->
-                loadingComponents(pb_login, button_iniciar,false, getString(R.string.login), true)
+                loadingComponents(pb_login, button_iniciar, false, getString(R.string.login), true)
                 Log.e(TAG, error.toString())
                 makeSnacks(
                     parent_view!!,
@@ -112,10 +127,18 @@ class MainActivity : AppCompatActivity() {
         queue.add(request)
     }
 
+    private fun makeJsonBodyRequest(): JSONObject {
+        val jsonObject = JSONObject()
+        jsonObject.put("email", tiet_correo.text)
+        jsonObject.put("password", tiet_password.text)
+        jsonObject.put("device_name", getString(R.string.device_name))
+
+        return jsonObject
+    }
 
 
-    fun launchActivityAfterRequest(){
-        var intent = Intent(this, Home::class.java)
+    fun launchActivityAfterRequest() {
+        val intent = Intent(this, Home::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
     }

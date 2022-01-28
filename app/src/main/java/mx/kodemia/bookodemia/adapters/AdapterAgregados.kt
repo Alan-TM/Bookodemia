@@ -48,7 +48,7 @@ class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapte
                 activity.supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.innerConstraint_home, fragmentDetallesLibro)
-                    .addToBackStack(null)
+                    .addToBackStack("book")
                     .commit()
             }
 
