@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private var parent_view: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        deleteTokenPreference(applicationContext) //borrar esta linea ----------
+        //deleteTokenPreference(applicationContext) //borrar esta linea ----------
         if (validateSessionToken(applicationContext))
             launchActivity()
 

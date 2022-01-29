@@ -97,7 +97,7 @@ class Home : AppCompatActivity() {
     }
 
     private fun addLibros(){
-        listLibros.add(Libro(R.drawable.libro_1, "El principito", "Desconocido", "Fantasia"))
+        listLibros.add(Libro(R.drawable.libro_1, "La desgraciada chocoaventura de niño sin fin y wonderpet", "Desconocido", "Fantasia"))
         listLibros.add(Libro(R.drawable.libro_2, "La metamorfosis", "Franz Kafka", "Metafora"))
         listLibros.add(Libro())
         listLibros.add(Libro())

@@ -68,6 +68,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="img_logout">Cerrar Sesión</string>
+    <string name="recycler_details_autor">by %s</string>
+    <string name="favorites">Favoritos</string>
+    <string name="user">Perfil</string>
 
 
 </resources>

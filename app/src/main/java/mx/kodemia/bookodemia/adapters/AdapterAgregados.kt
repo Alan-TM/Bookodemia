@@ -2,6 +2,7 @@ package mx.kodemia.bookodemia.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,12 +39,16 @@ class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapte
         fun setInfo(libro: Libro){
             Glide.with(view).load(libro.img).diskCacheStrategy(DiskCacheStrategy.NONE).into(img)
             titulo.text = libro.titulo
-            autor.text = "by ${libro.autor}"
+            autor.text = view.context.resources.getString(R.string.recycler_details_autor, libro.autor)
             categoria.text = libro.categoria
 
             btn_detalles.setOnClickListener {
+
                 val fragmentDetallesLibro = DetallesLibro()
+                fragmentDetallesLibro.arguments = bundleData(libro)
                 val activity = view.context as AppCompatActivity
+
+
 
                 activity.supportFragmentManager
                     .beginTransaction()
@@ -52,6 +57,14 @@ class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapte
                     .commit()
             }
 
+        }
+
+        private fun bundleData(libro: Libro): Bundle {
+            val bundle = Bundle()
+            bundle.putString("titulo", libro.titulo)
+            bundle.putString("autor", libro.autor)
+            bundle.putString("categoria", libro.categoria)
+            return bundle
         }
 
     }

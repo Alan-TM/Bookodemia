@@ -69,10 +69,6 @@ class DetallesUsuario : Fragment() {
 
         val context = view.context as AppCompatActivity
 
-        button_user_back.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack("user", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        }
-
         image_user_logout.setOnClickListener{
             deleteTokenPreference(context)
             makeLogOutAlert(context, view)

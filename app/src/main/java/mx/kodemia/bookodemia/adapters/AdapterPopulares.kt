@@ -36,18 +36,16 @@ class AdapterPopulares(val listLibros: MutableList<Libro>):
 
     override fun onBindViewHolder(holder: LibroHolder, position: Int) {
         holder.setImagen(listLibros[position])
-        holder.img.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val activity = v!!.context as AppCompatActivity
-                val fragmentDetallesLibro = DetallesLibro()
+        holder.img.setOnClickListener { v ->
+            val activity = v!!.context as AppCompatActivity
+            val fragmentDetallesLibro = DetallesLibro()
 
-                activity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.innerConstraint_home, fragmentDetallesLibro)
-                    .addToBackStack(null)
-                    .commit()
-            }
-        })
+            activity.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.innerConstraint_home, fragmentDetallesLibro)
+                .addToBackStack("book")
+                .commit()
+        }
     }
 
     override fun getItemCount(): Int = listLibros.size

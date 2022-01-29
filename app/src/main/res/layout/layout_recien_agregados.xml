@@ -31,15 +31,15 @@
 
         <TextView
             android:id="@+id/text_recycler_agregados_titulo"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/agregados_titulo"
-            android:textStyle="bold"
             android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/button_recycler_home_detalles"
             app:layout_constraintStart_toEndOf="@id/image_recycler_agregados_portada"
-            app:layout_constraintTop_toTopOf="@id/image_recycler_agregados_portada"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_recycler_agregados_autor"
@@ -59,10 +59,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="25dp"
             android:text="@string/agregados_categoria"
             android:textColor="@color/gray_dark"
             android:textSize="12sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/text_recycler_agregados_autor"
             app:layout_constraintTop_toBottomOf="@id/text_recycler_agregados_autor"
             tools:ignore="TextContrastCheck" />
