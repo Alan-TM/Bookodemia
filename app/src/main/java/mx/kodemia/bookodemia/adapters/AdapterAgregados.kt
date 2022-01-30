@@ -3,6 +3,7 @@ package mx.kodemia.bookodemia.adapters
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,38 +18,56 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import mx.kodemia.bookodemia.DetallesLibro
 import mx.kodemia.bookodemia.MainActivity
 import mx.kodemia.bookodemia.R
+import mx.kodemia.bookodemia.models.Book
 import mx.kodemia.bookodemia.models.Libro
+import mx.kodemia.bookodemia.models.authors.AuthorsAll
+import mx.kodemia.bookodemia.models.categories.CategoriesAll
+import mx.kodemia.bookodemia.models.categories.CategoriesData
 
 
-class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapter<AdapterAgregados.LibroHolder>() {
+class AdapterAgregados(val listLibros: MutableList<Book>) :
+    RecyclerView.Adapter<AdapterAgregados.LibroHolder>() {
+
     class LibroHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val cv : MaterialCardView = view.findViewById(R.id.cardView_recien_agregados)
-        val img : ImageView = view.findViewById(R.id.image_recycler_agregados_portada)
+        private val AUTOR = "author"
+        private val CATEGORY = "category"
+
+        var bundle = Bundle()
+
+        val cv: MaterialCardView = view.findViewById(R.id.cardView_recien_agregados)
+        val img: ImageView = view.findViewById(R.id.image_recycler_agregados_portada)
         val titulo: TextView = view.findViewById(R.id.text_recycler_agregados_titulo)
         val autor: TextView = view.findViewById(R.id.text_recycler_agregados_autor)
         val categoria: TextView = view.findViewById(R.id.text_recycler_agregados_categoria)
         val btn_detalles: Button = view.findViewById(R.id.button_recycler_home_detalles)
 
-        fun setInfo(libro: Libro){
-            Glide.with(view).load(libro.img).diskCacheStrategy(DiskCacheStrategy.NONE).into(img)
-            titulo.text = libro.titulo
-            autor.text = view.context.resources.getString(R.string.recycler_details_autor, libro.autor)
-            categoria.text = libro.categoria
+        fun setInfo(libro: Book) {
+            //Glide.with(view).load(libro.img).diskCacheStrategy(DiskCacheStrategy.NONE).into(img)
+
+
+            img.setImageResource(R.drawable.libro_1)
+            titulo.text = libro.attributes.title
+            getCategoriesOrAuthorsByRequest(libro.relationships.authors.links.related, autor, AUTOR)
+            getCategoriesOrAuthorsByRequest(libro.relationships.categories.links.related, categoria, CATEGORY)
 
             btn_detalles.setOnClickListener {
-
+                bundle.putSerializable("book", libro)
                 val fragmentDetallesLibro = DetallesLibro()
-                fragmentDetallesLibro.arguments = bundleData(libro)
+                fragmentDetallesLibro.arguments = bundle
                 val activity = view.context as AppCompatActivity
-
-
 
                 activity.supportFragmentManager
                     .beginTransaction()
@@ -59,12 +78,36 @@ class AdapterAgregados(val listLibros: MutableList<Libro>) : RecyclerView.Adapte
 
         }
 
-        private fun bundleData(libro: Libro): Bundle {
-            val bundle = Bundle()
-            bundle.putString("titulo", libro.titulo)
-            bundle.putString("autor", libro.autor)
-            bundle.putString("categoria", libro.categoria)
-            return bundle
+        private fun getCategoriesOrAuthorsByRequest(url: String, textView: TextView, type: String) {
+            val queue = Volley.newRequestQueue(view.context)
+
+            val request = object : JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                { response ->
+                    if(type == CATEGORY) {
+                        val r = Json.decodeFromString<CategoriesAll>(response.toString())
+                        textView.text = r.data.attributes.name
+                        bundle.putSerializable("category", r)
+                    }
+                    else{
+                        val r = Json.decodeFromString<AuthorsAll>(response.toString())
+                        textView.text = view.context.getString(R.string.by_author, r.data.attributes.name)
+                        bundle.putSerializable("author", r)
+                    }
+                },
+                { error ->
+                    Log.e("Recycler", error.toString())
+                }) {
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    headers["Content-Type"] = "application/json"
+                    return headers
+                }
+            }
+            queue.add(request)
         }
 
     }

@@ -33,18 +33,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/sv_home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_wrapBehaviorInParent="vertical_only"
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
@@ -117,11 +121,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
                     tools:ignore="TextContrastCheck" />
 
+
                 <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
                     android:id="@+id/recycler_populares"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-
+                    android:layout_height="220dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_mas_populares" />
@@ -219,13 +223,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layoutAnimation="@anim/layout_animation"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_home_recien_agregados" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

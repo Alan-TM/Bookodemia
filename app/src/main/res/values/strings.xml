@@ -3,6 +3,9 @@
     <string name="api_login">login</string>
     <string name="api_register">register</string>
     <string name="api_user">user</string>
+    <string name="api_books">books</string>
+    <string name="api_categories">categories</string>
+    <string name="api_authors">authors</string>
 
     <!--Share preference-->
     <string name="name_file_preference">mx.kodemia.bookodemia.sharedpreferences</string>
@@ -37,7 +40,7 @@
     <string name="author_name">Nombre del autor</string>
     <string name="more_titles_autor">Más títulos del autor</string>
     <string name="title_book">Título</string>
-    <string name="by_author">by Autor</string>
+    <string name="by_author">by %s</string>
     <string name="category">Categoría</string>
     <string name="error_empty">Este campo es requerido</string>
     <string name="placeholder_user">Alan-TM</string>
@@ -71,6 +74,7 @@
     <string name="recycler_details_autor">by %s</string>
     <string name="favorites">Favoritos</string>
     <string name="user">Perfil</string>
+    <string name="details_detalles">Creado: %s \n\n Actualizado: %s</string>
 
 
 </resources>
