@@ -12,13 +12,16 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ProgressBar
 import com.airbnb.lottie.LottieAnimationView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import mx.kodemia.bookodemia.R
+import org.json.JSONObject
 
-fun makeSnacks(v: View, text: CharSequence, color: Int){
+fun makeSnacks(v: View, text: CharSequence, color: Int) {
     Snackbar.make(
         v,
         text,
@@ -41,13 +44,13 @@ fun hideKeyboard(activity: Activity) {
     }
 }
 
-fun checkEmptyOrErrorFields(context: Context, vararg til: TextInputLayout): Boolean{
+fun checkEmptyOrErrorFields(context: Context, vararg til: TextInputLayout): Boolean {
     var count = 0
-    for(i in til){
-        if(i.editText!!.text.toString().isEmpty()){
+    for (i in til) {
+        if (i.editText!!.text.toString().isEmpty()) {
             i.error = context.getString(R.string.error_empty)
             count++
-        } else if(i.isErrorEnabled)
+        } else if (i.isErrorEnabled)
             count++
     }
     return count == 0
@@ -65,10 +68,9 @@ fun afterEmailTextErrorWatcher(context: Context, tiet: TextInputEditText, til: T
             if (editText.toString().trim().isEmpty()) {
                 til.error = context.getString(R.string.error_empty)
             } else {
-                if(editText!!.contains('@') && editText!!.contains('.')){
+                if (editText!!.contains('@') && editText!!.contains('.')) {
                     til.isErrorEnabled = false
-                }
-                else{
+                } else {
                     til.error = context.getString(R.string.error_invalid_email)
                 }
             }
@@ -78,7 +80,7 @@ fun afterEmailTextErrorWatcher(context: Context, tiet: TextInputEditText, til: T
 
 }
 
-fun afterTextErrorWatcher(context: Context, tiet: TextInputEditText, til: TextInputLayout){
+fun afterTextErrorWatcher(context: Context, tiet: TextInputEditText, til: TextInputLayout) {
     tiet.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -117,8 +119,14 @@ fun verifyInternetConnection(context: Context): Boolean {
     return false
 }
 
-fun loadingComponents(pb: LottieAnimationView, button: Button, visible: Boolean, buttonText: String, enable: Boolean){
-    pb.visibility = when(visible){
+fun loadingComponents(
+    pb: LottieAnimationView,
+    button: Button,
+    visible: Boolean,
+    buttonText: String,
+    enable: Boolean
+) {
+    pb.visibility = when (visible) {
         true -> View.VISIBLE
         false -> View.GONE
     }

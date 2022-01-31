@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -56,12 +57,25 @@ class FormRegistro : AppCompatActivity() {
             if (verifyInternetConnection(applicationContext))
                 makeRegisterRequest()
             else
-                makeSnacks(
-                    parent_view!!,
-                    getString(R.string.error_connection),
-                    getColor(R.color.error)
-                )
+                dialogNoInternet()
         }
+    }
+
+    fun dialogNoInternet(){
+        with(AlertDialog.Builder(this)){
+            setTitle(getString(R.string.error_dialog_title))
+            setMessage(getString(R.string.error_connection))
+            setPositiveButton(getString(R.string.error_dialog_out), { dialog, with->
+                deleteTokenPreference(applicationContext)
+                launchLogin()
+            })
+            show()
+        }
+    }
+
+    private fun launchLogin() {
+        startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        finish()
     }
 
     private fun makeRegisterRequest() {

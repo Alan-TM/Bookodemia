@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.layout_recien_agregados.view.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import mx.kodemia.bookodemia.DetallesLibro
@@ -41,11 +42,11 @@ import mx.kodemia.bookodemia.models.categories.CategoriesData
 class AdapterAgregados(val listLibros: MutableList<Book>) :
     RecyclerView.Adapter<AdapterAgregados.LibroHolder>() {
 
+    var bundle = Bundle()
+
     class LibroHolder(val view: View) : RecyclerView.ViewHolder(view) {
         private val AUTOR = "author"
         private val CATEGORY = "category"
-
-        var bundle = Bundle()
 
         val cv: MaterialCardView = view.findViewById(R.id.cardView_recien_agregados)
         val img: ImageView = view.findViewById(R.id.image_recycler_agregados_portada)
@@ -54,27 +55,17 @@ class AdapterAgregados(val listLibros: MutableList<Book>) :
         val categoria: TextView = view.findViewById(R.id.text_recycler_agregados_categoria)
         val btn_detalles: Button = view.findViewById(R.id.button_recycler_home_detalles)
 
+        fun getRequests(libro: Book){
+            getCategoriesOrAuthorsByRequest(libro.relationships.authors.links.related, autor, AUTOR)
+            getCategoriesOrAuthorsByRequest(libro.relationships.categories.links.related, categoria, CATEGORY)
+        }
+
         fun setInfo(libro: Book) {
             //Glide.with(view).load(libro.img).diskCacheStrategy(DiskCacheStrategy.NONE).into(img)
 
-
+            getRequests(libro)
             img.setImageResource(R.drawable.libro_1)
             titulo.text = libro.attributes.title
-            getCategoriesOrAuthorsByRequest(libro.relationships.authors.links.related, autor, AUTOR)
-            getCategoriesOrAuthorsByRequest(libro.relationships.categories.links.related, categoria, CATEGORY)
-
-            btn_detalles.setOnClickListener {
-                bundle.putSerializable("book", libro)
-                val fragmentDetallesLibro = DetallesLibro()
-                fragmentDetallesLibro.arguments = bundle
-                val activity = view.context as AppCompatActivity
-
-                activity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.innerConstraint_home, fragmentDetallesLibro)
-                    .addToBackStack("book")
-                    .commit()
-            }
 
         }
 
@@ -89,12 +80,10 @@ class AdapterAgregados(val listLibros: MutableList<Book>) :
                     if(type == CATEGORY) {
                         val r = Json.decodeFromString<CategoriesAll>(response.toString())
                         textView.text = r.data.attributes.name
-                        bundle.putSerializable("category", r)
                     }
                     else{
                         val r = Json.decodeFromString<AuthorsAll>(response.toString())
                         textView.text = view.context.getString(R.string.by_author, r.data.attributes.name)
-                        bundle.putSerializable("author", r)
                     }
                 },
                 { error ->
@@ -119,20 +108,18 @@ class AdapterAgregados(val listLibros: MutableList<Book>) :
 
     override fun onBindViewHolder(holder: LibroHolder, position: Int) {
         holder.setInfo(listLibros[position])
-        /*holder.view.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                val activity = v!!.context as AppCompatActivity
+        holder.btn_detalles.setOnClickListener {
+                bundle.putSerializable("book", listLibros[position])
+                val activity = holder.view.context as AppCompatActivity
                 val fragmentDetallesLibro = DetallesLibro()
+                fragmentDetallesLibro.arguments = bundle
 
                 activity.supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.innerConstraint_home, fragmentDetallesLibro)
-                    .addToBackStack(null)
+                    .addToBackStack("book")
                     .commit()
-            }
-
-
-        })*/
+        }
     }
 
     override fun getItemCount(): Int = listLibros.size

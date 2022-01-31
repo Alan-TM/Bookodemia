@@ -32,7 +32,7 @@
                 app:srcCompat="@drawable/banner" />
 
             <TextView
-                android:id="@+id/text_favorites_nombre"
+                android:id="@+id/text_user_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -69,8 +69,63 @@
                 app:dividerThickness="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/text_favorites_nombre" />
+                app:layout_constraintStart_toEndOf="@+id/text_user_title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_user_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="@string/placeholder_user2"
+            android:textColor="@color/blue_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_banner_user" />
+
+        <TextView
+            android:id="@+id/text_user_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="16sp"
+            tools:text="TextView"
+            android:text="@string/placeholder_user2"
+            android:textColor="@color/error"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_user_name" />
+
+        <TextView
+            android:id="@+id/text_user_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            tools:text="TextView"
+            android:text="@string/placeholder_user2"
+            app:layout_constraintEnd_toEndOf="@+id/text_user_id"
+            app:layout_constraintStart_toStartOf="@+id/text_user_id"
+            app:layout_constraintTop_toBottomOf="@+id/text_user_id" />
+
+        <TextView
+            android:id="@+id/text_user_created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/placeholder_user2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_user_email"
+            tools:text="TextView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

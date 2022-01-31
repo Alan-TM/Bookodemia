@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //deleteTokenPreference(applicationContext) //borrar esta linea ----------
+
         if (validateSessionToken(applicationContext))
             launchActivity()
 
@@ -37,6 +38,17 @@ class MainActivity : AppCompatActivity() {
 
         initializeComponents()
 
+    }
+
+    fun dialogNoInternet(){
+        with(androidx.appcompat.app.AlertDialog.Builder(this)){
+            setTitle(getString(R.string.error_dialog_title))
+            setMessage(getString(R.string.error_connection))
+            setPositiveButton(getString(R.string.error_dialog_out), { dialog, with->
+                dialog.dismiss()
+            })
+            show()
+        }
     }
 
     override fun onResume() {
@@ -74,12 +86,7 @@ class MainActivity : AppCompatActivity() {
             if (verifyInternetConnection(applicationContext))
                 startLogIn()
             else
-                makeSnacks(
-                    parent_view!!,
-                    getString(R.string.error_connection),
-                    getColor(R.color.error)
-                )
-
+                dialogNoInternet()
         }
 
         afterEmailTextErrorWatcher(applicationContext, tiet_correo, til_correo)

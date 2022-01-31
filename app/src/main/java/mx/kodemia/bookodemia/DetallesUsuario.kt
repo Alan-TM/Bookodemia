@@ -11,28 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_detalles_usuario.*
+import mx.kodemia.bookodemia.models.User
 import mx.kodemia.bookodemia.tools.deleteTokenPreference
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [detalles_usuario.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DetallesUsuario : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            user = it.getSerializable("usuario") as User
         }
     }
 
@@ -45,21 +33,11 @@ class DetallesUsuario : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment detalles_usuario.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             DetallesUsuario().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putSerializable("usuario", user)
                 }
             }
     }
@@ -69,6 +47,8 @@ class DetallesUsuario : Fragment() {
 
         val context = view.context as AppCompatActivity
 
+        initComponents()
+
         image_user_logout.setOnClickListener{
             deleteTokenPreference(context)
             makeLogOutAlert(context, view)
@@ -76,6 +56,16 @@ class DetallesUsuario : Fragment() {
         }
     }
 
+    fun initComponents(){
+
+        arguments?.let{
+            text_user_name.text = user.name
+            text_user_id.text = user.id
+            text_user_email.text = user.email
+            text_user_created.text = getString(R.string.user_created_at, user.createdAt)
+        }
+
+    }
     fun makeLogOutAlert(context: AppCompatActivity, view: View){
         MaterialAlertDialogBuilder(view.context, R.style.MaterialAlertDialog_Material3)
             .setMessage("Desea cerrar sesión?")
