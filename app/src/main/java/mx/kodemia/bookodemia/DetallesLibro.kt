@@ -100,7 +100,8 @@ class DetallesLibro : Fragment() {
             }
         }
         button_details_back.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack("book", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            requireActivity().supportFragmentManager
+                .popBackStack("book", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
     }
 

@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -42,6 +43,8 @@ class Home : AppCompatActivity() {
     private var parent_view: View? = null
     private var TAG = Home::class.qualifiedName
     private var objectsMap = HashMap<String, JSONObject>()
+    var listCategory = ArrayList<String>()
+    var listBooks = ArrayList<Book>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,16 +68,26 @@ class Home : AppCompatActivity() {
             dialogNoInternet()
         }
 
+        button_home_categoria.setOnClickListener {
+            val adapterCategories = AdapterCategorias(listCategory)
+            recycler_home_agregados.adapter = adapterCategories
+        }
+
+        button_home_libros.setOnClickListener {
+            val adapterBooks = AdapterAgregados(listBooks)
+            recycler_home_agregados.adapter = adapterBooks
+        }
+
     }
 
     fun dialogNoInternet() {
         with(AlertDialog.Builder(this)) {
             setTitle(getString(R.string.error_dialog_title))
             setMessage(getString(R.string.error_connection))
-            setPositiveButton(getString(R.string.error_dialog_out), { dialog, with ->
+            setPositiveButton(getString(R.string.error_dialog_out)) { dialog, with ->
                 deleteTokenPreference(applicationContext)
                 launchLogin()
-            })
+            }
             show()
         }
     }
@@ -123,7 +136,10 @@ class Home : AppCompatActivity() {
 
     fun transitionToFragment(fragment: Fragment, backStack: String) {
         supportFragmentManager.popBackStack()
-        supportFragmentManager.beginTransaction().replace(R.id.innerConstraint_home, fragment)
+        supportFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(R.anim.slide_in_fragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE, FragmentTransaction.TRANSIT_FRAGMENT_FADE, R.anim.slide_out_fragment)
+            .replace(R.id.innerConstraint_home, fragment)
             .addToBackStack(backStack).commit()
     }
 
@@ -135,7 +151,7 @@ class Home : AppCompatActivity() {
     }
 
     private fun initRecyclerCategorias(listCategorias: MutableList<CategoriesData>) {
-        val adapterCategorias = AdapterCategorias(listCategorias)
+        val adapterCategorias = AdapterCategorias(listCategory)
         recycler_home_agregados.layoutManager = LinearLayoutManager(this)
         recycler_home_agregados.adapter = adapterCategorias
         recycler_home_agregados.setHasFixedSize(true)
@@ -188,11 +204,12 @@ class Home : AppCompatActivity() {
         val request =
             JsonObjectRequest(getString(R.string.url_servidor) + getString(R.string.api_books),
                 null, { response ->
-
-                    objectsMap["libros"] = response
                     val r = Json.decodeFromString<Data>(response.toString())
 
-                    initRecyclerAgregados(r.data)
+                    for(b in r.data){
+                        listBooks.add(b)
+                    }
+                    initRecyclerAgregados(listBooks)
                     initCarouselPopulares(randomNumberHelper(r.data))
                 }, { error ->
                     Log.e(TAG, error.toString())
@@ -209,7 +226,15 @@ class Home : AppCompatActivity() {
         val request =
             JsonObjectRequest(getString(R.string.url_servidor) + getString(R.string.api_categories),
                 null, { response ->
+
                     objectsMap["categorias"] = response
+
+                    val r = Json.decodeFromString<AllCategories>(response.toString())
+
+                    for(c in r.data){
+                        listCategory.add(c.attributes.name)
+                    }
+
                     Log.d(TAG, response.toString())
                     pb_home.visibility = View.GONE
                     innerConstraint_home.visibility = View.VISIBLE

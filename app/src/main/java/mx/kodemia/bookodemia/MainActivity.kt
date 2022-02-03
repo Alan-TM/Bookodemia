@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
                 dialogNoInternet()
         }
 
-        afterEmailTextErrorWatcher(applicationContext, tiet_correo, til_correo)
-        afterTextErrorWatcher(applicationContext, tiet_password, til_password)
+        afterEmailTextErrorWatcher(applicationContext, til_correo)
+        afterTextErrorWatcher(applicationContext, til_password)
     }
 
     private fun startLogIn() {

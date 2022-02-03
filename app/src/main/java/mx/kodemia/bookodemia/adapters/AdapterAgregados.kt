@@ -3,8 +3,10 @@ package mx.kodemia.bookodemia.adapters
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Transition
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.SurfaceControl
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -55,18 +57,15 @@ class AdapterAgregados(val listLibros: MutableList<Book>) :
         val categoria: TextView = view.findViewById(R.id.text_recycler_agregados_categoria)
         val btn_detalles: Button = view.findViewById(R.id.button_recycler_home_detalles)
 
-        fun getRequests(libro: Book){
+        private fun getRequests(libro: Book){
             getCategoriesOrAuthorsByRequest(libro.relationships.authors.links.related, autor, AUTOR)
             getCategoriesOrAuthorsByRequest(libro.relationships.categories.links.related, categoria, CATEGORY)
         }
 
         fun setInfo(libro: Book) {
-            //Glide.with(view).load(libro.img).diskCacheStrategy(DiskCacheStrategy.NONE).into(img)
-
             getRequests(libro)
             img.setImageResource(R.drawable.libro_1)
             titulo.text = libro.attributes.title
-
         }
 
         private fun getCategoriesOrAuthorsByRequest(url: String, textView: TextView, type: String) {
@@ -116,6 +115,7 @@ class AdapterAgregados(val listLibros: MutableList<Book>) :
 
                 activity.supportFragmentManager
                     .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.innerConstraint_home, fragmentDetallesLibro)
                     .addToBackStack("book")
                     .commit()

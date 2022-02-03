@@ -1,22 +1,29 @@
 package mx.kodemia.bookodemia.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import mx.kodemia.bookodemia.R
 import mx.kodemia.bookodemia.models.Book
 import mx.kodemia.bookodemia.models.Categories
 import mx.kodemia.bookodemia.models.categories.CategoriesData
 
-class AdapterCategorias(val listCategorias: MutableList<CategoriesData>) :
+class AdapterCategorias(val listCategorias: MutableList<String>) :
     RecyclerView.Adapter<AdapterCategorias.CategoriasHolder>()  {
     class CategoriasHolder(val view: View): RecyclerView.ViewHolder(view) {
+
+        val image_background: ImageView = view.findViewById(R.id.image_categorias_background)
         val categoria: TextView = view.findViewById(R.id.text_categoria)
 
-        fun setInfo(categoriaInfo: CategoriesData){
-            categoria.text = categoriaInfo.attributes.name
+        fun setInfo(categoriaInfo: String){
+            categoria.text = categoriaInfo
+            val currentColor = Color.argb(100, (0..256).random(), (0..256).random(), (0..256).random());
+            image_background.setBackgroundColor(currentColor)
         }
     }
 

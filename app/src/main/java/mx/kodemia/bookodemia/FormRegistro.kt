@@ -36,8 +36,8 @@ class FormRegistro : AppCompatActivity() {
     fun initializeComponents() {
         parent_view = findViewById(android.R.id.content)
 
-        afterTextErrorWatcher(applicationContext, tiet_registro_user, til_registro_user)
-        afterEmailTextErrorWatcher(applicationContext, tiet_registro_correo, til_registro_correo)
+        afterTextErrorWatcher(applicationContext, til_registro_user)
+        afterEmailTextErrorWatcher(applicationContext, til_registro_correo)
         errorMatchinPasswords(
             tiet_registro_password,
             til_registro_password,
