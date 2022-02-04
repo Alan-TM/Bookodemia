@@ -7,21 +7,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import mx.kodemia.bookodemia.R
-import mx.kodemia.bookodemia.models.Book
-import mx.kodemia.bookodemia.models.Categories
-import mx.kodemia.bookodemia.models.categories.CategoriesData
 
-class AdapterCategorias(val listCategorias: MutableList<String>) :
-    RecyclerView.Adapter<AdapterCategorias.CategoriasHolder>()  {
+class AdapterGeneric(val listGeneric: MutableList<String>) :
+    RecyclerView.Adapter<AdapterGeneric.CategoriasHolder>()  {
     class CategoriasHolder(val view: View): RecyclerView.ViewHolder(view) {
 
         val image_background: ImageView = view.findViewById(R.id.image_categorias_background)
-        val categoria: TextView = view.findViewById(R.id.text_categoria)
+        val text: TextView = view.findViewById(R.id.text_categoria)
 
-        fun setInfo(categoriaInfo: String){
-            categoria.text = categoriaInfo
+        fun setInfo(info: String){
+            text.text = info
             val currentColor = Color.argb(100, (0..256).random(), (0..256).random(), (0..256).random());
             image_background.setBackgroundColor(currentColor)
         }
@@ -36,9 +32,9 @@ class AdapterCategorias(val listCategorias: MutableList<String>) :
     }
 
     override fun onBindViewHolder(holder: CategoriasHolder, position: Int) {
-        holder.setInfo(listCategorias[position])
+        holder.setInfo(listGeneric[position])
     }
 
-    override fun getItemCount(): Int = listCategorias.size
+    override fun getItemCount(): Int = listGeneric.size
 
 }

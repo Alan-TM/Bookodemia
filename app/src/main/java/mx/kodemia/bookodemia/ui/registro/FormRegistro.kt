@@ -1,4 +1,4 @@
-package mx.kodemia.bookodemia
+package mx.kodemia.bookodemia.ui.registro
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,16 +7,16 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_form_registro.*
-import kotlinx.android.synthetic.main.activity_main.*
+import mx.kodemia.bookodemia.ui.home.Home
+import mx.kodemia.bookodemia.ui.login.Login
+import mx.kodemia.bookodemia.R
 import mx.kodemia.bookodemia.tools.*
 import org.json.JSONObject
 
@@ -65,16 +65,15 @@ class FormRegistro : AppCompatActivity() {
         with(AlertDialog.Builder(this)){
             setTitle(getString(R.string.error_dialog_title))
             setMessage(getString(R.string.error_connection))
-            setPositiveButton(getString(R.string.error_dialog_out), { dialog, with->
-                deleteTokenPreference(applicationContext)
+            setPositiveButton(getString(R.string.error_dialog_out)) { dialog, with ->
                 launchLogin()
-            })
+            }
             show()
         }
     }
 
     private fun launchLogin() {
-        startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        startActivity(Intent(this, Login::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
         finish()
     }
 
@@ -102,13 +101,7 @@ class FormRegistro : AppCompatActivity() {
                 { response ->
                     Log.d(TAG, response.toString())
 
-                    initSessionToken(applicationContext, response)
-
-                    makeSnacks(
-                        parent_view!!,
-                        getString(R.string.success_register),
-                        getColor(R.color.blue_dark)
-                    )
+                    SharedPreferenceTools(applicationContext).initSessionToken(response)
 
                     loadingComponents(
                         pb_registro,
@@ -170,18 +163,16 @@ class FormRegistro : AppCompatActivity() {
         return jsonRegister
     }
 
+    //refactorizar este codigo !!!! ------------------------------------------------------
     private fun errorMatchinPasswords(
         tiet: TextInputEditText,
         til: TextInputLayout,
         matchTil: TextInputLayout
     ) {
-        tiet.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
+       tiet.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(editText: Editable?) {
                 if (editText.toString().trim().isEmpty())

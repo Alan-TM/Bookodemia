@@ -1,8 +1,7 @@
 package mx.kodemia.bookodemia.models.authors
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import mx.kodemia.bookodemia.models.Links
+import mx.kodemia.bookodemia.models.books.Links
 import mx.kodemia.bookodemia.models.categories.CategoriesRelationships
 
 @Serializable

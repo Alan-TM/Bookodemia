@@ -1,8 +1,8 @@
-package mx.kodemia.bookodemia.models
+package mx.kodemia.bookodemia.models.books
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Data(
+data class AllBooks(
     val data: MutableList<Book>
 )

@@ -1,7 +1,7 @@
 package mx.kodemia.bookodemia.models.categories
 
 import kotlinx.serialization.Serializable
-import mx.kodemia.bookodemia.models.Links
+import mx.kodemia.bookodemia.models.books.Links
 
 @Serializable
 data class CategoriesData(

@@ -1,44 +1,27 @@
 package mx.kodemia.bookodemia.adapters
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.transition.Transition
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.SurfaceControl
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
-import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.layout_recien_agregados.view.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import mx.kodemia.bookodemia.DetallesLibro
-import mx.kodemia.bookodemia.MainActivity
+import mx.kodemia.bookodemia.ui.book.DetallesLibro
 import mx.kodemia.bookodemia.R
-import mx.kodemia.bookodemia.models.Book
-import mx.kodemia.bookodemia.models.Libro
-import mx.kodemia.bookodemia.models.authors.AuthorsAll
-import mx.kodemia.bookodemia.models.categories.CategoriesAll
-import mx.kodemia.bookodemia.models.categories.CategoriesData
+import mx.kodemia.bookodemia.models.books.Book
+import mx.kodemia.bookodemia.models.authors.SingleAuthor
+import mx.kodemia.bookodemia.models.categories.SingleCateogory
 
 
 class AdapterAgregados(val listLibros: MutableList<Book>) :
@@ -77,11 +60,11 @@ class AdapterAgregados(val listLibros: MutableList<Book>) :
                 null,
                 { response ->
                     if(type == CATEGORY) {
-                        val r = Json.decodeFromString<CategoriesAll>(response.toString())
+                        val r = Json.decodeFromString<SingleCateogory>(response.toString())
                         textView.text = r.data.attributes.name
                     }
                     else{
-                        val r = Json.decodeFromString<AuthorsAll>(response.toString())
+                        val r = Json.decodeFromString<SingleAuthor>(response.toString())
                         textView.text = view.context.getString(R.string.by_author, r.data.attributes.name)
                     }
                 },

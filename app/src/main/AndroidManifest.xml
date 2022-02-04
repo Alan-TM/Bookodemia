@@ -13,14 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bookodemia">
         <activity
-            android:name=".Home"
+            android:name=".ui.home.Home"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".ui.login.Login"/>
         <activity
-            android:name=".FormRegistro"
+            android:name=".ui.registro.FormRegistro"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.login.Login"
             android:exported="true"
             android:windowSoftInputMode="stateVisible">
             <intent-filter>

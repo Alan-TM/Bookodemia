@@ -1,6 +1,5 @@
-package mx.kodemia.bookodemia
+package mx.kodemia.bookodemia.ui.user
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_detalles_usuario.*
-import mx.kodemia.bookodemia.models.User
-import mx.kodemia.bookodemia.tools.deleteTokenPreference
+import mx.kodemia.bookodemia.R
+import mx.kodemia.bookodemia.models.user.User
+import mx.kodemia.bookodemia.tools.SharedPreferenceTools
+import mx.kodemia.bookodemia.ui.login.Login
 
 class DetallesUsuario : Fragment() {
     private lateinit var user: User
@@ -50,9 +50,8 @@ class DetallesUsuario : Fragment() {
         initComponents()
 
         image_user_logout.setOnClickListener{
-            deleteTokenPreference(context)
+            SharedPreferenceTools(context).deleteTokenPreference()
             makeLogOutAlert(context, view)
-
         }
     }
 
@@ -80,7 +79,7 @@ class DetallesUsuario : Fragment() {
     }
 
     fun launchLogInActivity(context: AppCompatActivity){
-        startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        startActivity(Intent(context, Login::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
         context.finish()
     }
 }

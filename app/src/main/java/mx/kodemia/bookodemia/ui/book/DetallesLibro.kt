@@ -1,7 +1,6 @@
-package mx.kodemia.bookodemia
+package mx.kodemia.bookodemia.ui.book
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,19 +15,17 @@ import kotlinx.android.synthetic.main.fragment_detalles_libro.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import mx.kodemia.bookodemia.models.Book
-import mx.kodemia.bookodemia.models.authors.AuthorsAll
-import mx.kodemia.bookodemia.models.authors.AuthorsData
-import mx.kodemia.bookodemia.models.categories.CategoriesAll
-import mx.kodemia.bookodemia.models.categories.CategoriesData
-import mx.kodemia.bookodemia.tools.deleteTokenPreference
+import mx.kodemia.bookodemia.R
+import mx.kodemia.bookodemia.models.books.Book
+import mx.kodemia.bookodemia.models.authors.SingleAuthor
+import mx.kodemia.bookodemia.models.categories.SingleCateogory
 import mx.kodemia.bookodemia.tools.makeSnacks
 import mx.kodemia.bookodemia.tools.verifyInternetConnection
 
 class DetallesLibro : Fragment() {
     private lateinit var book: Book
-    private lateinit var category: CategoriesAll
-    private lateinit var author: AuthorsAll
+    private lateinit var category: SingleCateogory
+    private lateinit var author: SingleAuthor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,10 +67,9 @@ class DetallesLibro : Fragment() {
         with(AlertDialog.Builder(view.context)){
             setTitle(getString(R.string.error_dialog_title))
             setMessage(getString(R.string.error_connection))
-            setPositiveButton(getString(R.string.error_dialog_out), { dialog, with->
-                deleteTokenPreference(view.context)
+            setPositiveButton(getString(R.string.error_dialog_out)) { dialog, with ->
                 activity?.onBackPressed()
-            })
+            }
             show()
         }
     }
@@ -111,7 +107,7 @@ class DetallesLibro : Fragment() {
         val request = JsonObjectRequest(Request.Method.GET, url, null, {
             response->
 
-            val author = Json.decodeFromString<AuthorsAll>(response.toString())
+            val author = Json.decodeFromString<SingleAuthor>(response.toString())
 
             text_details_autor.text = getString(R.string.by_author, author.data.attributes.name)
             text_details_nombre.text = author.data.attributes.name
@@ -121,7 +117,9 @@ class DetallesLibro : Fragment() {
             linear_detalles_libro.visibility = View.VISIBLE
         }, {
             error->
-            makeSnacks(requireView(), getString(R.string.error_something_happened), requireView().context.getColor(R.color.error))
+            makeSnacks(requireView(), getString(R.string.error_something_happened), requireView().context.getColor(
+                R.color.error
+            ))
         })
 
         queue.add(request)
@@ -133,12 +131,14 @@ class DetallesLibro : Fragment() {
         val request = JsonObjectRequest(Request.Method.GET, url, null, {
                 response->
 
-            val category = Json.decodeFromString<CategoriesAll>(response.toString())
+            val category = Json.decodeFromString<SingleCateogory>(response.toString())
 
             text_details_categoria.text = category.data.attributes.name
         }, {
                 error->
-            makeSnacks(requireView(), getString(R.string.error_something_happened), requireView().context.getColor(R.color.error))
+            makeSnacks(requireView(), getString(R.string.error_something_happened), requireView().context.getColor(
+                R.color.error
+            ))
         })
 
         queue.add(request)

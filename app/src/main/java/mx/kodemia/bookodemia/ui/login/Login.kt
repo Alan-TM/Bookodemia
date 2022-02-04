@@ -1,40 +1,33 @@
-package mx.kodemia.bookodemia
+package mx.kodemia.bookodemia.ui.login
 
-import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_login.*
+import mx.kodemia.bookodemia.ui.home.Home
+import mx.kodemia.bookodemia.R
 import mx.kodemia.bookodemia.tools.*
+import mx.kodemia.bookodemia.ui.registro.FormRegistro
 import org.json.JSONObject
 
-class MainActivity : AppCompatActivity() {
+class Login : AppCompatActivity() {
 
-    private var TAG = MainActivity::class.qualifiedName
+    private var TAG = Login::class.qualifiedName
     private var parent_view: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //deleteTokenPreference(applicationContext) //borrar esta linea ----------
 
-        if (validateSessionToken(applicationContext))
+        if (SharedPreferenceTools(applicationContext).validateSessionToken())
             launchActivity()
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         initializeComponents()
 
@@ -44,9 +37,9 @@ class MainActivity : AppCompatActivity() {
         with(androidx.appcompat.app.AlertDialog.Builder(this)){
             setTitle(getString(R.string.error_dialog_title))
             setMessage(getString(R.string.error_connection))
-            setPositiveButton(getString(R.string.error_dialog_out), { dialog, with->
+            setPositiveButton(getString(R.string.error_dialog_out)) { dialog, with ->
                 dialog.dismiss()
-            })
+            }
             show()
         }
     }
@@ -119,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             jsonObject,
             { response ->
                 Log.d(TAG, response.toString())
-                initSessionToken(applicationContext, response)
+                SharedPreferenceTools(applicationContext).initSessionToken(response)
                 launchActivityAfterRequest()
             },
             { error ->

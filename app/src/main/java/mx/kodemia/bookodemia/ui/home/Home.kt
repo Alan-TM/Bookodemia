@@ -1,13 +1,11 @@
-package mx.kodemia.bookodemia
+package mx.kodemia.bookodemia.ui.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,35 +13,33 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_home.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import mx.kodemia.bookodemia.ui.user.DetallesUsuario
+import mx.kodemia.bookodemia.R
+import mx.kodemia.bookodemia.ui.favorites.UserFavorites
 import mx.kodemia.bookodemia.adapters.AdapterAgregados
-import mx.kodemia.bookodemia.adapters.AdapterCategorias
+import mx.kodemia.bookodemia.adapters.AdapterGeneric
 import mx.kodemia.bookodemia.adapters.AdapterPopulares
-import mx.kodemia.bookodemia.models.Book
-import mx.kodemia.bookodemia.models.Data
-import mx.kodemia.bookodemia.models.Libro
-import mx.kodemia.bookodemia.models.User
-import mx.kodemia.bookodemia.models.authors.AuthorsAll
+import mx.kodemia.bookodemia.models.authors.AllAuthors
+import mx.kodemia.bookodemia.models.authors.AuthorsData
+import mx.kodemia.bookodemia.models.books.Book
+import mx.kodemia.bookodemia.models.books.AllBooks
+import mx.kodemia.bookodemia.models.user.User
 import mx.kodemia.bookodemia.models.categories.AllCategories
-import mx.kodemia.bookodemia.models.categories.CategoriesAll
-import mx.kodemia.bookodemia.models.categories.CategoriesBook
 import mx.kodemia.bookodemia.models.categories.CategoriesData
-import mx.kodemia.bookodemia.tools.deleteTokenPreference
-import mx.kodemia.bookodemia.tools.getPreferenceTokenSession
-import mx.kodemia.bookodemia.tools.makeSnacks
-import mx.kodemia.bookodemia.tools.verifyInternetConnection
-import org.json.JSONObject
+import mx.kodemia.bookodemia.tools.*
+import mx.kodemia.bookodemia.ui.login.Login
 
 class Home : AppCompatActivity() {
 
     private var parent_view: View? = null
     private var TAG = Home::class.qualifiedName
-    private var objectsMap = HashMap<String, JSONObject>()
+    val bundle = Bundle()
     var listCategory = ArrayList<String>()
+    var listAuthors = ArrayList<String>()
     var listBooks = ArrayList<Book>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +57,7 @@ class Home : AppCompatActivity() {
             runBlocking(Dispatchers.IO) {
                 getUserInfoByRequest()
                 getBooksInfoByRequest()
+                getAuthorsByRequest()
                 getCategoriesByRequest()
             }
         } else {
@@ -69,13 +66,18 @@ class Home : AppCompatActivity() {
         }
 
         button_home_categoria.setOnClickListener {
-            val adapterCategories = AdapterCategorias(listCategory)
+            val adapterCategories = AdapterGeneric(listCategory)
             recycler_home_agregados.adapter = adapterCategories
         }
 
         button_home_libros.setOnClickListener {
             val adapterBooks = AdapterAgregados(listBooks)
             recycler_home_agregados.adapter = adapterBooks
+        }
+
+        button_home_autores.setOnClickListener {
+            val adapterAutores = AdapterGeneric(listAuthors)
+            recycler_home_agregados.adapter = adapterAutores
         }
 
     }
@@ -85,7 +87,7 @@ class Home : AppCompatActivity() {
             setTitle(getString(R.string.error_dialog_title))
             setMessage(getString(R.string.error_connection))
             setPositiveButton(getString(R.string.error_dialog_out)) { dialog, with ->
-                deleteTokenPreference(applicationContext)
+                SharedPreferenceTools(applicationContext).deleteTokenPreference()
                 launchLogin()
             }
             show()
@@ -96,7 +98,7 @@ class Home : AppCompatActivity() {
         startActivity(
             Intent(
                 this,
-                MainActivity::class.java
+                Login::class.java
             ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         )
         finish()
@@ -119,11 +121,6 @@ class Home : AppCompatActivity() {
                     true
                 }
                 R.id.nav_user -> {
-                    val bundle = Bundle()
-                    bundle.putSerializable(
-                        "usuario",
-                        Json.decodeFromString<User>(objectsMap["usuario"].toString())
-                    )
                     val fragmentUser = DetallesUsuario()
                     fragmentUser.arguments = bundle
                     transitionToFragment(fragmentUser, "user")
@@ -135,12 +132,18 @@ class Home : AppCompatActivity() {
     }
 
     fun transitionToFragment(fragment: Fragment, backStack: String) {
-        supportFragmentManager.popBackStack()
+        //supportFragmentManager.popBackStack()
+        if(!supportFragmentManager.popBackStackImmediate())
         supportFragmentManager
             .beginTransaction()
-            .setCustomAnimations(R.anim.slide_in_fragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE, FragmentTransaction.TRANSIT_FRAGMENT_FADE, R.anim.slide_out_fragment)
+            .setCustomAnimations(
+                R.anim.slide_in_fragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE, FragmentTransaction.TRANSIT_FRAGMENT_FADE,
+                R.anim.slide_out_fragment
+            )
             .replace(R.id.innerConstraint_home, fragment)
-            .addToBackStack(backStack).commit()
+            .addToBackStack(backStack)
+            .commit()
+
     }
 
     private fun initRecyclerAgregados(listBooks: MutableList<Book>) {
@@ -151,9 +154,16 @@ class Home : AppCompatActivity() {
     }
 
     private fun initRecyclerCategorias(listCategorias: MutableList<CategoriesData>) {
-        val adapterCategorias = AdapterCategorias(listCategory)
+        val adapterCategorias = AdapterGeneric(listCategory)
         recycler_home_agregados.layoutManager = LinearLayoutManager(this)
         recycler_home_agregados.adapter = adapterCategorias
+        recycler_home_agregados.setHasFixedSize(true)
+    }
+
+    private fun initRecyclerAutores(listAutores: MutableList<AuthorsData>){
+        val adapterAutores = AdapterGeneric(listAuthors)
+        recycler_home_agregados.layoutManager = LinearLayoutManager(this)
+        recycler_home_agregados.adapter = adapterAutores
         recycler_home_agregados.setHasFixedSize(true)
     }
 
@@ -173,24 +183,19 @@ class Home : AppCompatActivity() {
             null,
             { response ->
                 Log.d(TAG, response.toString())
-                objectsMap["usuario"] = response
                 val r = Json.decodeFromString<User>(response.toString())
+                bundle.putSerializable("usuario", r)
                 text_home_nombre.text = r.name
             },
             { error ->
                 Log.e(TAG, error.toString())
                 if (error.networkResponse.statusCode == 429) {
-                    makeSnacks(parent_view!!, "Error, algo ocurrió", getColor(R.color.error))
+                    makeSnacks(parent_view!!, getString(R.string.error_many_request), getColor(R.color.error))
                 }
             }) {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
-                headers["Authorization"] = "Bearer ${
-                    getPreferenceTokenSession(
-                        applicationContext,
-                        getString(R.string.preference_token)
-                    )
-                }"
+                headers["Authorization"] = "Bearer ${SharedPreferenceTools(applicationContext).getPreferenceTokenSession(getString(R.string.preference_token))}"
                 headers["Accept"] = "application/json"
                 headers["Content-Type"] = "application/json"
                 return headers
@@ -204,13 +209,12 @@ class Home : AppCompatActivity() {
         val request =
             JsonObjectRequest(getString(R.string.url_servidor) + getString(R.string.api_books),
                 null, { response ->
-                    val r = Json.decodeFromString<Data>(response.toString())
-
+                    val r = Json.decodeFromString<AllBooks>(response.toString())
                     for(b in r.data){
                         listBooks.add(b)
                     }
                     initRecyclerAgregados(listBooks)
-                    initCarouselPopulares(randomNumberHelper(r.data))
+                    initCarouselPopulares(randomBookHelper(r.data))
                 }, { error ->
                     Log.e(TAG, error.toString())
                     if (error.networkResponse.statusCode == 429) {
@@ -226,9 +230,6 @@ class Home : AppCompatActivity() {
         val request =
             JsonObjectRequest(getString(R.string.url_servidor) + getString(R.string.api_categories),
                 null, { response ->
-
-                    objectsMap["categorias"] = response
-
                     val r = Json.decodeFromString<AllCategories>(response.toString())
 
                     for(c in r.data){
@@ -246,7 +247,27 @@ class Home : AppCompatActivity() {
         queue.add(request)
     }
 
-    private fun randomNumberHelper(listBooks: MutableList<Book>): MutableList<Book> {
+    fun getAuthorsByRequest() {
+        val queue = Volley.newRequestQueue(applicationContext)
+        val request =
+            JsonObjectRequest(getString(R.string.url_servidor) + getString(R.string.api_authors),
+                null, { response ->
+                    val r = Json.decodeFromString<AllAuthors>(response.toString())
+
+                    for(c in r.data){
+                        listAuthors.add(c.attributes.name)
+                    }
+
+                    Log.d(TAG, response.toString())
+                }, { error ->
+                    if (error.networkResponse.statusCode == 429)
+                        makeSnacks(parent_view!!, "Error", getColor(R.color.error))
+                    Log.e(TAG, error.toString())
+                })
+        queue.add(request)
+    }
+
+    private fun randomBookHelper(listBooks: MutableList<Book>): MutableList<Book> {
         val mySet = mutableSetOf<Book>()
 
         while (mySet.size < 5) {

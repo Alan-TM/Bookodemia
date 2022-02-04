@@ -79,6 +79,7 @@
     <string name="categoria_categoria">Categoría</string>
     <string name="user_created_at">Usuario creado\n%s</string>
     <string name="error_something_happened">Error, algo sucedio</string>
+    <string name="error_many_request">Error, demasiadas peticiones al servidor</string>
 
 
 </resources>

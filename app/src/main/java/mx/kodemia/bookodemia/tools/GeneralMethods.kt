@@ -19,7 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_login.*
 import mx.kodemia.bookodemia.R
 import org.json.JSONObject
 

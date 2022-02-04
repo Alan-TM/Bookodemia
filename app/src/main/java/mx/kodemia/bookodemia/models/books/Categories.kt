@@ -1,4 +1,4 @@
-package mx.kodemia.bookodemia.models
+package mx.kodemia.bookodemia.models.books
 
 import kotlinx.serialization.Serializable
 
